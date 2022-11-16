@@ -9,7 +9,6 @@ function handleButtonPress(e) {
   var key = e.target.innerHTML;
   var currentNumber = currentInput.innerHTML;
   if ((Number(key) || key === "0") && currentInput.innerHTML.length < 6) {
-    console.log(currentNumber.startsWith("0"));
     if (currentNumber.startsWith("0")) {
       currentInput.innerHTML = currentNumber.substring(1);
     }
@@ -43,29 +42,33 @@ function handleButtonPress(e) {
 function operate(key) {
   if (key === "=" && firstNumber === 0) return;
   if (firstNumber === 0) {
-    firstNumber = currentInput.innerHTML;
+    firstNumber = Number(currentInput.innerHTML);
     currentInput.innerHTML = "0";
     operator = key;
   } else if (firstNumber !== 0 && key === "=") {
-    secondNumber = currentInput.innerHTML;
+    secondNumber = Number(currentInput.innerHTML);
     let solution = "0";
+    console.log(firstNumber);
+    console.log(secondNumber);
     switch (operator) {
       case "+":
-        solution = (Number(firstNumber) + Number(secondNumber)).toString();
+        solution = (firstNumber + secondNumber).toString();
         break;
       case "-":
-        solution = (Number(firstNumber) - Number(secondNumber)).toString();
+        solution = (firstNumber - secondNumber).toString();
         break;
       case "X":
-        solution = (Number(firstNumber) * Number(secondNumber)).toString();
+        solution = (firstNumber * secondNumber).toString();
         break;
       case "/":
-        solution = (Number(firstNumber) / Number(secondNumber)).toString();
+        solution = (firstNumber / secondNumber).toString();
         break;
       default:
         solution = "0";
     }
-    currentInput.innerHTML = solution;
+    currentInput.innerHTML = (
+      Math.round(Number(solution) * 100) / 100
+    ).toString();
     firstNumber = Number(currentInput.innerHTML);
     secondNumber = 0;
   } else if (firstNumber !== 0 && key !== "=") {
